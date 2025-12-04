@@ -1,0 +1,278 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class ProductSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $categories = \App\Models\Category::all();
+        
+        if ($categories->isEmpty()) {
+            return;
+        }
+
+        // الحصول على التصنيفات
+        $acCategory = $categories->where('slug', 'air-conditioner-parts')->first();
+        $fridgeCategory = $categories->where('slug', 'refrigerator-parts')->first();
+        $washingCategory = $categories->where('slug', 'washing-machine-parts')->first();
+
+        $products = [
+            // قطع غيار التكييفات
+            [
+                'name' => 'كمبريسور تكييف 1.5 حصان',
+                'code' => 'AC-COMP-001',
+                'barcode' => '1234567890101',
+                'description' => 'كمبريسور تكييف منزلي 1.5 حصان - مناسب لمعظم الماركات',
+                'category_id' => $acCategory ? $acCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 2500,
+                'wholesale_price' => 2100,
+                'min_wholesale_quantity' => 5,
+                'stock_quantity' => 50,
+                'reorder_level' => 10,
+                'is_active' => true,
+                'is_featured' => true,
+            ],
+            [
+                'name' => 'مروحة تكييف خارجية',
+                'code' => 'AC-FAN-001',
+                'barcode' => '1234567890102',
+                'description' => 'مروحة الوحدة الخارجية للتكييف - جميع المقاسات',
+                'category_id' => $acCategory ? $acCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 350,
+                'wholesale_price' => 280,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 100,
+                'reorder_level' => 20,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            [
+                'name' => 'فلتر تكييف شبكي',
+                'code' => 'AC-FILTER-001',
+                'barcode' => '1234567890103',
+                'description' => 'فلتر هواء شبكي للتكييف - مقاسات مختلفة',
+                'category_id' => $acCategory ? $acCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 80,
+                'wholesale_price' => 60,
+                'min_wholesale_quantity' => 20,
+                'stock_quantity' => 200,
+                'reorder_level' => 50,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            [
+                'name' => 'ثرموستات تكييف',
+                'code' => 'AC-THERM-001',
+                'barcode' => '1234567890104',
+                'description' => 'ثرموستات تحكم في درجة الحرارة للتكييف',
+                'category_id' => $acCategory ? $acCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 450,
+                'wholesale_price' => 380,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 75,
+                'reorder_level' => 15,
+                'is_active' => true,
+                'is_featured' => true,
+            ],
+            [
+                'name' => 'غاز فريون R22',
+                'code' => 'AC-GAS-001',
+                'barcode' => '1234567890105',
+                'description' => 'غاز فريون R22 للتكييف - كيلو',
+                'category_id' => $acCategory ? $acCategory->id : $categories->first()->id,
+                'unit' => 'كيلو',
+                'retail_price' => 120,
+                'wholesale_price' => 100,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 150,
+                'reorder_level' => 30,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            
+            // قطع غيار الثلاجات
+            [
+                'name' => 'كمبريسور ثلاجة 1/4 حصان',
+                'code' => 'FRIDGE-COMP-001',
+                'barcode' => '1234567890201',
+                'description' => 'كمبريسور ثلاجة 1/4 حصان - مناسب للثلاجات المنزلية',
+                'category_id' => $fridgeCategory ? $fridgeCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 1800,
+                'wholesale_price' => 1500,
+                'min_wholesale_quantity' => 5,
+                'stock_quantity' => 40,
+                'reorder_level' => 8,
+                'is_active' => true,
+                'is_featured' => true,
+            ],
+            [
+                'name' => 'ثرموستات ثلاجة',
+                'code' => 'FRIDGE-THERM-001',
+                'barcode' => '1234567890202',
+                'description' => 'ثرموستات تحكم في درجة الحرارة للثلاجة',
+                'category_id' => $fridgeCategory ? $fridgeCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 120,
+                'wholesale_price' => 95,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 80,
+                'reorder_level' => 15,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            [
+                'name' => 'مروحة ثلاجة',
+                'code' => 'FRIDGE-FAN-001',
+                'barcode' => '1234567890203',
+                'description' => 'مروحة التبريد للثلاجة - جميع الموديلات',
+                'category_id' => $fridgeCategory ? $fridgeCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 250,
+                'wholesale_price' => 200,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 60,
+                'reorder_level' => 12,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            [
+                'name' => 'مقبض باب ثلاجة',
+                'code' => 'FRIDGE-HANDLE-001',
+                'barcode' => '1234567890204',
+                'description' => 'مقبض باب ثلاجة - جميع الموديلات',
+                'category_id' => $fridgeCategory ? $fridgeCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 150,
+                'wholesale_price' => 120,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 100,
+                'reorder_level' => 20,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            [
+                'name' => 'صينية ثلاجة بلاستيك',
+                'code' => 'FRIDGE-TRAY-001',
+                'barcode' => '1234567890205',
+                'description' => 'صينية ثلاجة بلاستيك - مقاسات مختلفة',
+                'category_id' => $fridgeCategory ? $fridgeCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 80,
+                'wholesale_price' => 60,
+                'min_wholesale_quantity' => 15,
+                'stock_quantity' => 120,
+                'reorder_level' => 25,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            
+            // قطع غيار الغسالات
+            [
+                'name' => 'ماتور غسالة 5 كيلو',
+                'code' => 'WASH-MOTOR-001',
+                'barcode' => '1234567890301',
+                'description' => 'ماتور غسالة أتوماتيك 5 كيلو - مناسب لمعظم الماركات',
+                'category_id' => $washingCategory ? $washingCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 1200,
+                'wholesale_price' => 1000,
+                'min_wholesale_quantity' => 5,
+                'stock_quantity' => 45,
+                'reorder_level' => 10,
+                'is_active' => true,
+                'is_featured' => true,
+            ],
+            [
+                'name' => 'طلمبة مياه غسالة',
+                'code' => 'WASH-PUMP-001',
+                'barcode' => '1234567890302',
+                'description' => 'طلمبة تصريف المياه للغسالة الأتوماتيك',
+                'category_id' => $washingCategory ? $washingCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 400,
+                'wholesale_price' => 320,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 70,
+                'reorder_level' => 15,
+                'is_active' => true,
+                'is_featured' => true,
+            ],
+            [
+                'name' => 'سير غسالة',
+                'code' => 'WASH-BELT-001',
+                'barcode' => '1234567890303',
+                'description' => 'سير الماتور للغسالة - جميع المقاسات',
+                'category_id' => $washingCategory ? $washingCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 60,
+                'wholesale_price' => 45,
+                'min_wholesale_quantity' => 20,
+                'stock_quantity' => 150,
+                'reorder_level' => 30,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            [
+                'name' => 'صمام مياه غسالة',
+                'code' => 'WASH-VALVE-001',
+                'barcode' => '1234567890304',
+                'description' => 'صمام دخول المياه للغسالة الأتوماتيك',
+                'category_id' => $washingCategory ? $washingCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 180,
+                'wholesale_price' => 150,
+                'min_wholesale_quantity' => 10,
+                'stock_quantity' => 90,
+                'reorder_level' => 18,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+            [
+                'name' => 'لوحة تحكم غسالة',
+                'code' => 'WASH-BOARD-001',
+                'barcode' => '1234567890305',
+                'description' => 'لوحة تحكم إلكترونية للغسالة الأتوماتيك',
+                'category_id' => $washingCategory ? $washingCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 800,
+                'wholesale_price' => 650,
+                'min_wholesale_quantity' => 5,
+                'stock_quantity' => 35,
+                'reorder_level' => 7,
+                'is_active' => true,
+                'is_featured' => true,
+            ],
+            [
+                'name' => 'باب غسالة زجاج',
+                'code' => 'WASH-DOOR-001',
+                'barcode' => '1234567890306',
+                'description' => 'باب غسالة زجاجي - جميع المقاسات',
+                'category_id' => $washingCategory ? $washingCategory->id : $categories->first()->id,
+                'unit' => 'قطعة',
+                'retail_price' => 600,
+                'wholesale_price' => 480,
+                'min_wholesale_quantity' => 5,
+                'stock_quantity' => 25,
+                'reorder_level' => 5,
+                'is_active' => true,
+                'is_featured' => false,
+            ],
+        ];
+
+        foreach ($products as $product) {
+            \App\Models\Product::create($product);
+        }
+    }
+}
