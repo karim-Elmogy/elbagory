@@ -119,7 +119,8 @@
                                 <th>اسم المنتج</th>
                                 <th>الكمية</th>
                                 <th>الوحدة</th>
-                                <th>السعر (ج.م)</th>
+                                <th>سعر الوحدة (ج.م)</th>
+                                <th>الإجمالي</th>
                                 <th>ملاحظات</th>
                             </tr>
                         </thead>
@@ -133,16 +134,34 @@
                                     <td>
                                         <input type="number" 
                                                name="prices[{{ $item->id }}]" 
-                                               class="form-control" 
+                                               class="form-control price-input" 
+                                               data-quantity="{{ $item->quantity }}"
+                                               data-item-id="{{ $item->id }}"
                                                step="0.01" 
                                                min="0" 
                                                placeholder="0.00"
                                                value="{{ $item->price ?? '' }}">
                                     </td>
+                                    <td class="total-cell" data-item-id="{{ $item->id }}">
+                                        @if($item->price !== null)
+                                            <strong>{{ number_format($item->getTotalPrice(), 2) }} ج.م</strong>
+                                        @else
+                                            <span class="text-muted">0.00 ج.م</span>
+                                        @endif
+                                    </td>
                                     <td class="text-muted small">{{ $item->notes ?? '-' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <td colspan="5" class="text-end"><strong>الإجمالي الكلي:</strong></td>
+                                <td class="grand-total-cell">
+                                    <strong>{{ number_format($pricingRequest->getTotalPrice(), 2) }} ج.م</strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 
@@ -233,6 +252,48 @@
             <p class="mb-0">{{ $pricingRequest->admin_notes }}</p>
         </div>
     </div>
+@endif
+
+@if($pricingRequest->status == 'pending')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const priceInputs = document.querySelectorAll('.price-input');
+    const grandTotalCell = document.querySelector('.grand-total-cell');
+    
+    function calculateTotal() {
+        let grandTotal = 0;
+        
+        priceInputs.forEach(input => {
+            const price = parseFloat(input.value) || 0;
+            const quantity = parseFloat(input.dataset.quantity) || 0;
+            const itemId = input.dataset.itemId;
+            const total = price * quantity;
+            
+            // تحديث الإجمالي لكل منتج
+            const totalCell = document.querySelector(`.total-cell[data-item-id="${itemId}"]`);
+            if (totalCell) {
+                totalCell.innerHTML = `<strong>${total.toFixed(2)} ج.م</strong>`;
+            }
+            
+            grandTotal += total;
+        });
+        
+        // تحديث الإجمالي الكلي
+        if (grandTotalCell) {
+            grandTotalCell.innerHTML = `<strong>${grandTotal.toFixed(2)} ج.م</strong>`;
+        }
+    }
+    
+    // إضافة event listener لكل حقل سعر
+    priceInputs.forEach(input => {
+        input.addEventListener('input', calculateTotal);
+        input.addEventListener('change', calculateTotal);
+    });
+    
+    // حساب الإجمالي عند تحميل الصفحة
+    calculateTotal();
+});
+</script>
 @endif
 @endsection
 
