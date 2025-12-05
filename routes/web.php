@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminSliderController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PricingRequestController;
+use App\Http\Controllers\Admin\AdminPricingRequestController;
 
 // ============================================
 // الواجهة الأمامية - عامة (بدون مصادقة)
@@ -82,6 +84,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    
+    // طلبات التسعير (لعملاء الجملة فقط)
+    Route::get('/pricing-requests', [PricingRequestController::class, 'index'])->name('pricing-requests.index');
+    Route::get('/pricing-requests/create', [PricingRequestController::class, 'create'])->name('pricing-requests.create');
+    Route::post('/pricing-requests', [PricingRequestController::class, 'store'])->name('pricing-requests.store');
+    Route::get('/pricing-requests/{id}', [PricingRequestController::class, 'show'])->name('pricing-requests.show');
     
     // تسجيل الخروج
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -155,5 +163,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // الـ Sliders
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::resource('sliders', AdminSliderController::class);
+    });
+    
+    // طلبات التسعير
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/pricing-requests', [AdminPricingRequestController::class, 'index'])->name('pricing-requests.index');
+        Route::get('/pricing-requests/{id}', [AdminPricingRequestController::class, 'show'])->name('pricing-requests.show');
+        Route::post('/pricing-requests/{id}/prices', [AdminPricingRequestController::class, 'updatePrices'])->name('pricing-requests.updatePrices');
+        Route::post('/pricing-requests/{id}/status', [AdminPricingRequestController::class, 'updateStatus'])->name('pricing-requests.updateStatus');
     });
 });

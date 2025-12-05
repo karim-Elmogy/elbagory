@@ -131,6 +131,51 @@
     </div>
 </div>
 
+<!-- إحصائيات طلبات التسعير -->
+<div class="row g-3 mb-4">
+    <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="stat-card info">
+            <div class="stat-card-header">
+                <h3><i class="fas fa-tags"></i> إجمالي طلبات التسعير</h3>
+                <i class="fas fa-tags stat-card-icon"></i>
+            </div>
+            <p class="number">{{ $totalPricingRequests }}</p>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="stat-card warning">
+            <div class="stat-card-header">
+                <h3><i class="fas fa-clock"></i> طلبات قيد الانتظار</h3>
+                <i class="fas fa-clock stat-card-icon"></i>
+            </div>
+            <p class="number">{{ $pendingPricingRequests }}</p>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="stat-card success">
+            <div class="stat-card-header">
+                <h3><i class="fas fa-check-circle"></i> طلبات تم تسعيرها</h3>
+                <i class="fas fa-check-circle stat-card-icon"></i>
+            </div>
+            <p class="number">{{ $pricedRequests }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- رابط سريع لطلبات التسعير -->
+@if($pendingPricingRequests > 0)
+    <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center justify-content-between" role="alert">
+        <div>
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>يوجد {{ $pendingPricingRequests }} طلب تسعير قيد الانتظار</strong>
+            <span class="ms-2">يحتاج إلى مراجعة وتحديد الأسعار</span>
+        </div>
+        <a href="{{ route('admin.pricing-requests.index', ['status' => 'pending']) }}" class="btn btn-warning btn-sm">
+            <i class="fas fa-arrow-left"></i> عرض الطلبات
+        </a>
+    </div>
+@endif
+
 <!-- أكثر المنتجات مبيعاً و تحذيرات المخزون -->
 <div class="row g-3">
     <div class="col-lg-6 col-md-12">

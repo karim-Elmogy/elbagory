@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\PricingRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -58,6 +59,11 @@ class DashboardController extends Controller
         $pendingInvoices = Invoice::where('status', 'draft')->count();
         $paidInvoices = Invoice::where('status', 'final')->count();
         
+        // إحصائيات طلبات التسعير
+        $totalPricingRequests = PricingRequest::count();
+        $pendingPricingRequests = PricingRequest::where('status', 'pending')->count();
+        $pricedRequests = PricingRequest::where('status', 'priced')->count();
+        
         return view('admin.dashboard', compact(
             'todayOrders',
             'todaySales',
@@ -72,7 +78,10 @@ class DashboardController extends Controller
             'wholesaleCustomers',
             'totalInvoices',
             'pendingInvoices',
-            'paidInvoices'
+            'paidInvoices',
+            'totalPricingRequests',
+            'pendingPricingRequests',
+            'pricedRequests'
         ));
     }
 }

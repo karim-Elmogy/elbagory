@@ -214,6 +214,50 @@
                 </div>
             </div>
             
+            @if($customer->type == 'wholesale')
+                <!-- Pricing Requests -->
+                <div class="account-sidebar-card mb-4">
+                    <div class="account-sidebar-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-tags text-warning"></i>
+                            طلبات التسعير
+                        </h5>
+                    </div>
+                    <div class="account-sidebar-body">
+                        @php
+                            $pricingRequestsCount = \App\Models\PricingRequest::where('customer_id', $customer->id)->count();
+                            $pendingPricingRequests = \App\Models\PricingRequest::where('customer_id', $customer->id)->where('status', 'pending')->count();
+                        @endphp
+                        <div class="quick-stats">
+                            <div class="quick-stat-item">
+                                <i class="fas fa-tags text-warning"></i>
+                                <div>
+                                    <span class="stat-label">إجمالي الطلبات</span>
+                                    <span class="stat-value">{{ $pricingRequestsCount }}</span>
+                                </div>
+                            </div>
+                            @if($pendingPricingRequests > 0)
+                                <div class="quick-stat-item">
+                                    <i class="fas fa-clock text-info"></i>
+                                    <div>
+                                        <span class="stat-label">قيد الانتظار</span>
+                                        <span class="stat-value">{{ $pendingPricingRequests }}</span>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="{{ route('pricing-requests.index') }}" class="btn btn-outline-primary btn-sm flex-fill">
+                                <i class="fas fa-list"></i> عرض الطلبات
+                            </a>
+                            <a href="{{ route('pricing-requests.create') }}" class="btn btn-primary btn-sm flex-fill">
+                                <i class="fas fa-plus"></i> طلب جديد
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            
             <!-- Quick Stats -->
             <div class="account-sidebar-card">
                 <div class="account-sidebar-header">

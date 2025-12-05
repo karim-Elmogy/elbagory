@@ -34,6 +34,22 @@
                             </span>
                         </div>
                         @auth
+                            <!-- @php
+                                $customer = auth()->user()->customers()->first();
+                                $isWholesale = $customer && $customer->isWholesale();
+                            @endphp
+                            @if($isWholesale)
+                                <a href="{{ route('pricing-requests.index') }}" class="cart-icon text-decoration-none text-center position-relative" title="طلبات التسعير">
+                                    <i class="fas fa-tags d-block"></i>
+                                    @php
+                                        $pendingPricingRequests = \App\Models\PricingRequest::where('customer_id', $customer->id)->where('status', 'pending')->count();
+                                    @endphp
+                                    @if($pendingPricingRequests > 0)
+                                        <span class="cart-badge">{{ $pendingPricingRequests }}</span>
+                                    @endif
+                                    <small class="d-block mt-1" style="font-size: 11px;">التسعير</small>
+                                </a>
+                            @endif -->
                             <a href="{{ route('notifications.index') }}" class="cart-icon text-decoration-none text-center position-relative" title="الإشعارات">
                                 <i class="fas fa-bell d-block"></i>
                                 @php
@@ -111,8 +127,11 @@
                         $isWholesale = $customer && $customer->isWholesale();
                     @endphp
                     @if($isWholesale)
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('orders.wholesale') }}"><i class="fas fa-warehouse"></i> طلبات الجمله</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pricing-requests.index') }}"><i class="fas fa-tags"></i> طلبات التسعير</a>
                         </li>
                     @endif
                     <li class="nav-item">

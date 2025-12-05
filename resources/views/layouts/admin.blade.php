@@ -491,6 +491,9 @@
                     <a href="{{ route('admin.orders.index') }}" class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                         <i class="fas fa-shopping-cart"></i> الطلبات
                     </a>
+                    <a href="{{ route('admin.pricing-requests.index') }}" class="{{ request()->routeIs('admin.pricing-requests.*') ? 'active' : '' }}">
+                        <i class="fas fa-tags"></i> طلبات التسعير
+                    </a>
                     <a href="{{ route('admin.invoices.index') }}" class="{{ request()->routeIs('admin.invoices.*') ? 'active' : '' }}">
                         <i class="fas fa-file-invoice"></i> فواتير الجملة
                     </a>

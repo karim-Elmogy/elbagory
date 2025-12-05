@@ -48,6 +48,11 @@ class Customer extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function pricingRequests(): HasMany
+    {
+        return $this->hasMany(PricingRequest::class);
+    }
+
     public function isWholesale(): bool
     {
         return $this->type === 'wholesale';
